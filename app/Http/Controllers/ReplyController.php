@@ -2,85 +2,48 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreReplyRequest;
-use App\Http\Requests\UpdateReplyRequest;
+use App\Http\Resources\ReplyResource;
 use App\Models\Reply;
+use App\Models\Question;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ReplyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Question $question)
     {
-        //
+        return  ReplyResource::collection($question->replies);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(Question $question, Request $request)
     {
-        //
+        $fields = $request->validate([
+            'body' => 'required|string',
+            'question_id' => 'required|integer',
+            'user_id' => 'required|integer'
+        ]);
+
+        $question->replies()->create($request->all());
+        return ReplyResource::collection($question->replies);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreReplyRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreReplyRequest $request)
+    public function show(Question $question,Reply $reply)
     {
-        //
+        return $reply;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Reply  $reply
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Reply $reply)
+    public function update(Question $question, Request $request, Reply $reply)
     {
-        //
+        if($reply->update($request->all()))
+            return ReplyResource::make($reply);
+        else
+            return response("Not updated", Response::HTTP_NO_CONTENT);
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Reply  $reply
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Reply $reply)
+    public function destroy(Question $question, Reply $reply)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateReplyRequest  $request
-     * @param  \App\Models\Reply  $reply
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateReplyRequest $request, Reply $reply)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Reply  $reply
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Reply $reply)
-    {
-        //
+        $reply->delete();
+        return response("Deleted Successfully", Response::HTTP_NO_CONTENT);
     }
 }

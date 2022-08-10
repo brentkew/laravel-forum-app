@@ -11,8 +11,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Reply extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'body', 'question_id', 'user_id'
+    ];
 
-    public function questoin()
+    public function question()
     {
         return $this->belongsTo(Question::class);
     }

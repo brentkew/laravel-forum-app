@@ -2,85 +2,55 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        return CategoryResource::collection(Category::orderBy('id','desc')->get());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(Request $request)
     {
-        //
+        $fields = $request->validate([
+            'name' => 'required|string'
+        ]);
+
+        $request['slug'] = Str::slug($fields['name']);
+        if($category = Category::create($request->all())) 
+        {
+            return CategoryResource::make($category);
+        } else {
+            return response("Created Successfully", Response::HTTP_NOT_FOUND);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreCategoryRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreCategoryRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
     public function show(Category $category)
     {
-        //
+        return CategoryResource::make($category);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
+    public function update(Request $request, Category $category)
     {
-        //
+        $fields = $request->validate([
+            'name' => 'required|string',
+        ]);
+
+        $request['slug'] = Str::slug($fields['name']);
+        if($category->update($request->all()))
+            return CategoryResource::make($category);
+        else
+            return response("Not updated", Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateCategoryRequest  $request
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateCategoryRequest $request, Category $category)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return response("Deleted Successfully", Response::HTTP_NO_CONTENT);
     }
 }

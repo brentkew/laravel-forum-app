@@ -2,85 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreQuestionRequest;
-use App\Http\Requests\UpdateQuestionRequest;
 use App\Models\Question;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Resources\QuestionResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class QuestionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        return QuestionResource::collection(Question::orderBy('id','desc')->get());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(Request $request)
     {
-        //
+        $fields = $request->validate([
+            'title' => 'required|string',
+            'body' => 'required|string',
+            'category_id' => 'required|integer'
+        ]);
+
+        $request['slug'] = Str::slug($fields['title']);
+        $request['user_id'] = 1; //auth()->user();
+        $question = Question::create($request->all());
+        
+        return QuestionResource::make($question);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreQuestionRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreQuestionRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Question  $question
-     * @return \Illuminate\Http\Response
-     */
     public function show(Question $question)
     {
-        //
+        return QuestionResource::make($question);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Question  $question
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Question $question)
+    public function update(Request $request, Question $question)
     {
-        //
+        $fields = $request->validate([
+            'title' => 'required|string',
+            'body' => 'required|string',
+            'category_id' => 'required|integer'
+        ]);
+
+        $request['slug'] = Str::slug($fields['title']);
+        if($question->update($request->all()))
+            return QuestionResource::make($question);
+        else
+            return response("Not updated", Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateQuestionRequest  $request
-     * @param  \App\Models\Question  $question
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateQuestionRequest $request, Question $question)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Question  $question
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Question $question)
     {
-        //
+        $question->delete();
+        return response("Deleted Successfully",Response::HTTP_NO_CONTENT);
     }
 }

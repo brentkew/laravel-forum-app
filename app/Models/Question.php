@@ -11,6 +11,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Question extends Model
 {
     use HasFactory;
+    protected $fillable = ['title','slug','body','category_id','user_id'];
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     public function category()
     {
@@ -22,8 +28,15 @@ class Question extends Model
     }
     public function replies()
     {
-        return $this->hasMany(Reply::class);
+        return $this->hasMany(Reply::class)->orderBy('id','desc');
     }
+
+    public function getPathAttribute()
+    {
+        return asset("api/question/$this->slug");
+    }
+
+    
 
 
 }
