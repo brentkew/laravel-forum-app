@@ -17,11 +17,6 @@ class CreateLikesTable extends Migration
             $table->increments('id');
             $table->integer('reply_id');
             $table->integer('user_id');
-            // $table->unsignedBigInteger('reply_id')->nullable();
-            // $table->unsignedBigInteger('user_id')->nullable();
-
-            // $table->foreign('reply_id')->references('id')->on('replies');
-            // $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

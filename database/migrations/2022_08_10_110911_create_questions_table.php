@@ -20,12 +20,6 @@ class CreateQuestionsTable extends Migration
             $table->text('body');
             $table->integer('category_id')->unsigned();
             $table->integer('user_id')->unsigned();
-
-            // $table->unsignedBigInteger('category_id')->nullable();
-            // $table->unsignedBigInteger('user_id')->nullable();
-
-            // $table->foreign('category_id')->references('id')->on('categories');
-            // $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
