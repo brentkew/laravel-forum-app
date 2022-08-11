@@ -7,6 +7,12 @@ use App\Http\Resources\ReplyResource;
 
 class LikeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwt');
+    }
+
+
     public function like(Reply $reply)
     {
         $reply->likes()->create([
