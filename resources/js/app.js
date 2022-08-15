@@ -12,9 +12,10 @@ import Vuetify from './plugins/vuetify';
 import router from './router';
 
 import User from './Helpers/User';
+import Vue from 'vue';
 window.User =  User;
 
-console.log(User.id());
+window.EventBus = new Vue();
 
 
 const app = new Vue({

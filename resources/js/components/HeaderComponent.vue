@@ -4,7 +4,11 @@
     text>
     <v-toolbar>
      
-      <v-toolbar-title>Laravel Fourm Application</v-toolbar-title>
+      <router-link to="/">
+        <v-toolbar-title>
+          Laravel Fourm Application
+        </v-toolbar-title>
+      </router-link>
       <v-spacer></v-spacer>
 
       <div>

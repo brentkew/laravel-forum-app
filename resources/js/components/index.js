@@ -9,3 +9,4 @@ Vue.component('portfolio-component', require('./PortfolioComponent.vue').default
 Vue.component('portfolio-component', require('./ForumComponent.vue').default)
 Vue.component('portfolio-component', require('./CategoryComponent.vue').default)
 Vue.component('portfolio-component', require('./QuestionComponent.vue').default)
+Vue.component('signup-component', require('./login/SignupComponent.vue').default)

@@ -6,18 +6,25 @@ class User {
 
     login(data) {
         axios.post('/api/auth/login', data)
-            .then( (res)=> this.responseAfterLogin(res))
+            .then( (res)=> {
+                this.responseAfterLogin(res);
+            })
             .catch( error => console.log(error) );
     }
+
+    // signup(data) {
+    //     axios.post('/api/auth/signup', data)
+    //         .then( (res)=> this.responseAfterLogin(res))
+    //         .catch( error => console.log(error) );
+    // }
 
 
     responseAfterLogin(res) 
     {
-        console.log(res);
-    
         const access_token = res.data.access_token;
         if(Token.isValid(access_token)) {            
-            AppStorage.store(res.data.user,res.data.access_token)
+            AppStorage.store(res.data.user,res.data.access_token);
+            window.location = '/forum';
         }
     }
 
@@ -36,6 +43,7 @@ class User {
 
     loggedOut() {
         AppStorage.clear();
+        window.location = '/forum';
     }
 
     name() {

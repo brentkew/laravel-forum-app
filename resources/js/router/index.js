@@ -52,6 +52,8 @@ import ForumComponent from '../components/ForumComponent.vue';
 import CategoryComponent from '../components/CategoryComponent.vue';
 import QuestionComponent from '../components/QuestionComponent.vue';
 import LoginComponent from '../components//login/LoginComponent';
+import LogoutComponent from '../components//login/LogoutComponent.vue';
+import SignupComponent from '../components//login/SignupComponent';
 
 
 const routes = [
@@ -60,34 +62,44 @@ const routes = [
         component: HomeComponent
     },
     {
-        name: "Forum",
+        name: "forum",
         path: "/forum",
         component: ForumComponent
     },
     {
-        name: "Category",
+        name: "category",
         path: "/category",
         component: CategoryComponent
     },
     {
-        name: "Question",
+        name: "question",
         path: "/question",
         component: QuestionComponent
     },
     {
-        name: "AboutUs",
+        name: "about-us",
         path: "/about-us",
         component: AboutusComponent
     },
     {
-        name: "Portfolio",
+        name: "portfolio",
         path: "/portfolio",
         component: PortfolioComponent
     },
     {
-        name: "Login",
+        name: "login",
         path: "/login",
         component: LoginComponent
+    },
+    {
+        name: "logout",
+        path: "/logout",
+        component: LogoutComponent
+    },
+    {
+        name: "signup",
+        path: "/signup",
+        component: SignupComponent
     },
     
 ];
