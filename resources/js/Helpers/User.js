@@ -51,13 +51,17 @@ class User {
     }
 
     id() {
-        const access_token = AppStorage.getToken();
-        if(access_token) {
-            const payload = Token.payload(access_token);
-            return payload.sub;
+        if(this.loggedIn()) {
+            const access_token = AppStorage.getToken();
+            if(access_token) {
+                const payload = Token.payload(access_token);
+                return payload.sub;
+            }            
         }
-            
         return false;
+    }
+    own(id) {
+        return this.id() == id;
     }
 
 }

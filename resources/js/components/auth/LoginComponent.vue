@@ -19,7 +19,7 @@
             required
             ></v-text-field>
 
-            <v-btn type="submit" color="green">
+            <v-btn type="submit" color="blue">
                 Login
             </v-btn>
 

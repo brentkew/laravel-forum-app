@@ -28,8 +28,8 @@ class QuestionController extends Controller
             'category_id' => 'required|integer'
         ]);
 
-        $request['slug'] = Str::slug($fields['title']);
-        $request['user_id'] = 1; //auth()->user();
+        // $request['slug'] = Str::slug($fields['title']);
+        $request['user_id'] = auth()->user()->id;
         $question = Question::create($request->all());
         
         return QuestionResource::make($question);
@@ -44,8 +44,7 @@ class QuestionController extends Controller
     {
         $fields = $request->validate([
             'title' => 'required|string',
-            'body' => 'required|string',
-            'category_id' => 'required|integer'
+            'body' => 'required|string'
         ]);
 
         $request['slug'] = Str::slug($fields['title']);

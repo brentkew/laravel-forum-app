@@ -6,7 +6,7 @@ class Token {
         console.log(payload.iss,"====");
 
         if(payload) {
-            return (payload.iss=='http://127.0.0.1:8000/api/auth/login' || payload.iss=='http://127.0.0.1:8000/api/auth/signup') ? true : false;
+            return (payload.iss=='http://localhost:8000/api/auth/login' || payload.iss=='http://localhost:8000/api/auth/signup') ? true : false;
         }
 
         return false;

@@ -20,4 +20,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', [HomeController::class, 'welcome']);
 Route::view('/{any}', [HomeController::class, 'welcome']);
+Route::view('/{any}/{any1}', [HomeController::class, 'welcome']);
 
