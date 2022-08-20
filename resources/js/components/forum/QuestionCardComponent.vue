@@ -1,6 +1,6 @@
 <template>
   <v-card class="mx-auto my-12">
-    <v-img height="280" src="https://via.placeholder.com/250"></v-img>
+    
     <v-card-title>
       <router-link :to="question.path">
         {{ question.title }}
