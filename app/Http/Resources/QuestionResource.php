@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Support\Str;
+use App\Http\Resources\ReplyResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class QuestionResource extends JsonResource
@@ -17,6 +18,9 @@ class QuestionResource extends JsonResource
     {       
         // return parent::toArray($request);
         $key = rand(1,1000);
+        $category = array();
+        if(!empty($this->category))
+            $category = array($this->category['name'],$this->category['slug']);
         
         return [
             'key' => $this->id,
@@ -27,7 +31,9 @@ class QuestionResource extends JsonResource
             'user' => $this->user->name,
             'user_id' => $this->user->id,
             'created_at' => $this->created_at->diffForHumans(),
-            'category' => array($this->category['name'],$this->category['slug'])
+            'category' => $category,
+            'replies' => ReplyResource::collection($this->replies),
+            'replies_count' => $this->replies->count()
         ];
     }
 }

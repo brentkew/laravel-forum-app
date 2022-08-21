@@ -1,40 +1,38 @@
 <template>
-    <v-container class="grey lighten-5">
-            <v-img height="280" src="https://via.placeholder.com/250"></v-img>
-            <v-card-title class="">
+<v-container class="grey lighten-5">
+    
+    <v-card-title class="">
+        <div class="headline">
+            {{ question.title }}            
+        </div>
+        <v-btn color="teal" v-if="question.replies_count">
+            {{ question.replies_count }} Replies
+        </v-btn>
 
-                <div class="headline">
-                    {{ question.title }}            
-                </div>
-                <v-btn color="teal">
-                    5 Replies
-                </v-btn>
-                <v-card-text>
-                    {{ question.user }} said {{ question.created_at }}      
-                </v-card-text>
-            </v-card-title>
-            
-            <v-card-text v-html="question.body"></v-card-text>          
+    </v-card-title>
 
-            <v-divider class="mx-4"></v-divider>
+    <v-card-text>
+        {{ question.user }} said {{ question.created_at }}      
+    </v-card-text>
 
 
-            
-            <v-card-actions v-if="own">
-                <v-btn class="ma-2" color="primary" dark @click="editQuestion">
-                    Edit 
-                    <v-icon dark right ></v-icon>
-                </v-btn> 
-                <v-btn class="ma-2" color="primary" dark @click="deleteQuestion">
-                    Delete 
-                    <v-icon dark right ></v-icon>
-                </v-btn>                   
-            </v-card-actions>
-
-
-        </v-container>
+    <v-card-text v-html="question.body"></v-card-text>          
+    <v-divider class="mx-4"></v-divider>
+    <v-card-actions v-if="own">
+        <v-btn class="ma-2" color="primary" dark @click="editQuestion">
+            Edit 
+            <v-icon dark right ></v-icon>
+        </v-btn> 
+        <v-btn class="ma-2" color="primary" dark @click="deleteQuestion">
+            Delete 
+            <v-icon dark right ></v-icon>
+        </v-btn>                   
+    </v-card-actions>
+</v-container>
 </template>
 <script>
+
+
 export default {
     props: ['question'],
     data() {

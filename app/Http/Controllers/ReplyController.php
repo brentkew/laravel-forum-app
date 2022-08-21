@@ -25,13 +25,11 @@ class ReplyController extends Controller
     public function store(Question $question, Request $request)
     {
         $fields = $request->validate([
-            'body' => 'required|string',
-            'question_id' => 'required|integer',
-            'user_id' => 'required|integer'
+            'body' => 'required|string'
         ]);
 
-        $question->replies()->create($request->all());
-        return ReplyResource::collection($question->replies);
+        $reply = $question->replies()->create($request->all());
+        return ReplyResource::make($reply);
     }
 
     public function show(Question $question,Reply $reply)

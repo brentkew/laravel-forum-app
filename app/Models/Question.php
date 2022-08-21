@@ -13,6 +13,7 @@ class Question extends Model
 {
     use HasFactory;
     protected $fillable = ['title','slug','body','category_id','user_id'];
+    protected $with = ['replies'];
 
 
     protected static function boot()
@@ -38,7 +39,7 @@ class Question extends Model
     }
     public function replies()
     {
-        return $this->hasMany(Reply::class)->orderBy('id','desc');
+        return $this->hasMany(Reply::class)->orderBy('id','desc')->latest();
     }
 
     public function getPathAttribute()

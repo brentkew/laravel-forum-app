@@ -3,7 +3,15 @@
 
         <div v-if="question">
             <edit-question :question="question" v-if="editing"></edit-question>
-            <show-question :question="question" v-else></show-question>        
+            <show-question :question="question" v-else></show-question>
+
+
+            <v-container>
+                <replies-component :question="question" v-if="question.replies_count"></replies-component>
+                <new-reply :slug="question.slug"></new-reply>
+            </v-container>
+
+
         </div>
 
    </v-card>
@@ -12,10 +20,13 @@
 <script>
 import ShowQuestion from './ShowQuestion.vue';
 import EditQuestion from './EditQuestionComponent.vue';
+import RepliesComponent from '../reply/RepliesComponent.vue'
+import NewReply from '../reply/NewReply.vue'
+
 
 export default {
     components: {
-        ShowQuestion, EditQuestion
+        ShowQuestion, EditQuestion, RepliesComponent, NewReply
     },
     data() {
         return {
