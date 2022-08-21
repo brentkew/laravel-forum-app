@@ -3,6 +3,11 @@
         <v-card class="app-sidebar">
             <v-card-title>
                 {{ reply.user }} said {{ reply.created_at }}
+
+                <v-spacer></v-spacer>
+
+                <like-component :data="reply"></like-component>
+
             </v-card-title>
             <v-divider></v-divider>
 
@@ -23,8 +28,12 @@
 </template>
 
 <script>
+import LikeComponent from '../likes/LikeComponent.vue';
 export default {
     props: ['reply','index'],
+    components: {
+        LikeComponent
+    },
     computed: {
         own() {
             return User.own(this.reply.user_id)
